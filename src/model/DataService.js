@@ -10,7 +10,7 @@ export default class DataService {
         .get(vegpont)
         .then(function (response) {
           // handle success
-          console.log(response.data);
+          //console.log(response.data);
           callback(response.data);
   
         })
@@ -23,21 +23,22 @@ export default class DataService {
         });
     }
   
-    postData(data, vegpont, megjelenit, frissitCallback) {
+    postData(vegpont, data, frissitCallback, hibaCallback) {
       axios
       .post(vegpont, data)
       .then(function (response) {
           //response data --> backenden írtuk
-          megjelenit(response.data)
-          frissitCallback();
+          console.log("post", response.data)
+          frissitCallback(response.data);
         })
         .catch(function (error) {
-          console.log(error);
+          // console.log(error);
+          hibaCallback(error)
         })
         .finally(function () {});
     }
   
-    putData(vegpont, id, data, hibaCallback, frissitCallback) {
+    putData(vegpont, id, data, frissitCallback, hibaCallback) {
       axios
         .put(vegpont + "/" + id, data)
         .then(function (response) {
@@ -55,17 +56,19 @@ export default class DataService {
         });
     }
   
-    deleteData(vegpont, id) {
+    deleteData(vegpont, id, frissitCallback, hibaCallback) {
       axios
         .delete(vegpont + "/" + id)
         .then(function (response) {
           // handle success
           console.log(response);
+          frissitCallback(id);
         
         })
         .catch(function (error) {
           // handle error
           //console.log(error);
+          hibaCallback(error);
          
         })
         .finally(function () {
